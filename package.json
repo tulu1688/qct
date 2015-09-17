@@ -1,0 +1,21 @@
+{
+    "name": "QuizMaker"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "latest",
+      "lwip": "latest",
+      "body-parser": "latest",
+      "underscore": "latest",
+      "easy-zip": "latest",
+      "connect-multiparty": "latest",
+      "mongoose": "latest",
+      "knuth-shuffle": "latest",
+      "socket.io": "latest",
+      "jade": "latest",
+      "ejs": "latest",
+      "grunt": "latest",
+      "grunt-contrib-watch": "latest",
+      "grunt-express": "latest"
+  }
+}

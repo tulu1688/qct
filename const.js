@@ -1,0 +1,4 @@
+exports.CODE_USER_NOTFOUND = 0;
+exports.CODE_SUCCESSFUL = 1;
+exports.CODE_USER_EXISTED = 2;
+exports.CODE_INTERNAL_ERROR = 500;

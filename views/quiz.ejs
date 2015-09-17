@@ -1,0 +1,177 @@
+<!DOCTYPE html5>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" dir="ltr" lang="en-US">
+
+<head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/roboto.min.css" />
+    <link rel="stylesheet" href="/css/material-fullpalette.min.css" />
+    <link rel="stylesheet" href="/css/ripples.min.css" />
+    <link rel="stylesheet" href="/css/jquery.dropdown.css" />
+    <link rel="stylesheet" href="/css/uploadfile.css" />
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="/css/summernote.css" />
+    <link rel="stylesheet" href="/css/summernote-bs3.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/summernote.js"></script>
+    <script type="text/javascript" src="/js/ripples.min.js"></script>
+    <script type="text/javascript" src="/js/material.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dropdown.js"></script>
+    <script type="text/javascript" src="/js/jquery.nouislider.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.file-input.js"></script>
+    <script type="text/javascript" src="/js/jqueryupload.js"></script>
+    <script type="text/javascript" src="/js/socket.io-client/socket.io.js"></script>
+    <script type="text/javascript" src="/js/jqueryuploadform.js"></script>
+    <script type="text/javascript" src="/javascripts/test.js"></script>
+    <style>
+      #dialog h2 {
+        padding: 14px;
+        margin: 0;
+        font-size: 16px;
+        font-weight: 400;
+      }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-xs-3"></div>
+        <div style="top: 20px;" class="well pages col-xs-6">
+            <h3 class="quizname_title"><b>&nbsp;<%= title %></b></h3>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div style="display:none" class="category_id"><%=_id %></div>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" data-toggle="modal" data-target="#complete-dialog" style="width: 160px;" class="btn btn-primary" id="quizbtn" onclick="clearEditQuizZone()">Tạo câu hỏi</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" data-toggle="modal" style="width: 160px;" class="btn btn-primary" id="quizbtn" onclick="location.href='/download/<%= _id %>'">Tai ve</button>
+                </div>
+                <div class="col-lg-3">
+                    <button type="button" onclick="location.href='/'" style="width: 160px;" class="btn btn-primary">Trở về</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+       <div class="col-xs-3"></div>
+       <div style="top: 20px;" class="well pages col-xs-6">
+            <table id="quizlist" class="display" width="100%"></table>
+       </div>
+    </div>
+
+    <div id="complete-dialog" class="modal fade in" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 class="modal-title">Câu hỏi</h3>
+          </div>
+          <div class="modal-body">
+            <div style="top: 20px;" class="col-xs-12">
+                <form id="questionedit_zone">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4>Nội dung</h4></div>
+                            <span id="quiz_id" style="display:none"></span>
+                        <div class="col-lg-9">
+                            <div id="question"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4>Hình ảnh</h4>
+                            <span>(upload)</span>
+                        </div>
+                        <div class="col-lg-9">
+                            <div id="cvfile"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4></h4>
+                            <span>(nhập url)</span>
+                        </div>
+                        <div class="col-lg-9">
+                            <input id="imgfile" type="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4>Giải nghĩa</h4></div>
+                        <div class="col-lg-9">
+                            <div id="explaination"></div>
+                        </div>
+                    </div>
+                    <h4>Câu trả lời</h4>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb1" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt1" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb2" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt2" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb3" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt3" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb4" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt4" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb5" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt5" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb6" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt6" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="float: right; margin-bottom: 20px; margin-right: 10px;">
+                        <button id="submit_quiz" type="button" onclick="summit_answer()" style="width: 160px;" class="btn btn-primary">Tạo câu hỏi</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
