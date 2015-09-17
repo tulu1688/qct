@@ -19,6 +19,10 @@ router.get('/download/:id', function(req,res,next){
 	}, res);
 });
 
+router.get('/test',function(req,res,next){
+	res.render('test.ejs', {title: 'TuluKhai'});
+});
+
 exports.categories = categories;
 exports.quizs = quizs;
 exports.root = router;
