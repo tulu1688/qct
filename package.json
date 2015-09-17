@@ -12,7 +12,6 @@
       "mongoose": "latest",
       "knuth-shuffle": "latest",
       "socket.io": "latest",
-      "jade": "latest",
       "ejs": "latest",
       "grunt": "latest",
       "grunt-contrib-watch": "latest",
