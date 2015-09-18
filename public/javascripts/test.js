@@ -128,12 +128,23 @@ $(document).ready(function() {
                 var responses = uploadFileForm.getResponses();
                 if (responses.length == 0)
                     return;
-                tmpfilename = responses[responses.length - 1];
+                var resData = JSON.parse(responses[responses.length - 1]);
+                tmpfilename = resData.fileName;
 
                 // Extra data
                 $('#imgfile').val(tmpfilename);
                 uploadFileForm.clearAll();
+                $('#hidenimg').attr('src',tmpfilename);
             },300);
+        }
+    });
+
+    $('#imgfile').change(function(){
+        var url = $('#imgfile').val();
+        if (url.indexOf('http') > -1) {
+            sendCommand('download_file', {
+                url: url
+            })
         }
     });
 
@@ -156,6 +167,7 @@ function clearEditQuizZone(){
     $('#explaination').code('');
     $("#quiz_id").html('');
     $('#imgfile').val('');
+    $('#hidenimg').attr('src','');
 
     for (var i=1;i<=6;i++){
         $('#opt' + i).val('');

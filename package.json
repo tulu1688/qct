@@ -5,7 +5,7 @@
   , "dependencies": {
       "express": "latest",
       "lwip": "latest",
-      "download": "latest",
+      "url-download": "latest",
       "body-parser": "latest",
       "underscore": "latest",
       "easy-zip": "latest",
@@ -16,6 +16,8 @@
       "ejs": "latest",
       "grunt": "latest",
       "grunt-contrib-watch": "latest",
-      "grunt-express": "latest"
+      "grunt-express": "latest",
+      "randomstring": "latest",
+      "datauri": "latest"
   }
 }

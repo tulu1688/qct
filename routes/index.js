@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/download/:id', function(req,res,next){
-	dal.download({
+	dal.downloadExam({
 		category: req.params.id
 	}, res);
 });

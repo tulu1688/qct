@@ -7,7 +7,7 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     multipart = require('connect-multiparty');
-router = require('./routes'),
+    router = require('./routes'),
     io = require('socket.io'),
     dal = require('./dal.js'),
     util = require('util'),
@@ -15,7 +15,8 @@ router = require('./routes'),
     path = require('path'),
     http = require('http'),
     lwip = require('lwip'),
-    constValues = require('./const.js');;
+    datauri = require('datauri'),
+    constValues = require('./const.js');
 
 var app = express();
 
@@ -45,7 +46,7 @@ app.post('/uploadfile', multipart(), function(req, res) {
     var file = req.files.file;
     var newFilePath = './public/uploads/' + file.originalFilename;
 
-    moveFile(file.path, newFilePath, function() {
+    dal.moveFile(file.path, newFilePath, function() {
         lwip.open(newFilePath, function(err, image) {
             var width = image.width();
             var height = image.height();
@@ -59,13 +60,15 @@ app.post('/uploadfile', multipart(), function(req, res) {
             }
 
             image.batch().cover(width, height, "moving-average").writeFile(newFilePath, function(err) {});
+            var ret = {
+                fileName: '/uploads/' + file.originalFilename
+            }
+            res.writeHead(200, {
+                'Content-Type': 'text/html'
+            });
+            res.end(JSON.stringify(ret), "utf-8");
         });
     });
-
-    res.writeHead(200, {
-        'Content-Type': 'text/html'
-    });
-    res.end('/uploads/' + file.originalFilename, "utf-8");
 });
 
 // catch 404 and forward to error handler
@@ -77,7 +80,7 @@ app.use(function(req, res, next) {
 
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('404.jade', {
+    res.render('404.ejs', {
         message: err.message,
         error: {}
     });
@@ -85,7 +88,7 @@ app.use(function(err, req, res, next) {
 
 // Run server
 var server = http.createServer(app);
-server.listen(3001, function() {
+server.listen(9000, function() {
     console.log("Express server listening on port %d in %s mode", server.address().port, server.address().address);
 });
 
@@ -154,21 +157,13 @@ socket.sockets.on('connection', function(client) {
     client.on('update_quiz', function(data) {
         dal.updateQuiz('update_quiz', data, client);
     });
-});
 
-// Utils
-function moveFile(srcfile, desfile, callback) {
-    var is = fs.createReadStream(srcfile)
-    var os = fs.createWriteStream(desfile);
-
-    util.pump(is, os, function() {
-        try {
-            fs.unlinkSync(srcfile);
-            callback();
-        } catch (e) {
-            console.log(e);
-        }
+    ///////////////////////////////////////////////////
+    /// Other functions
+    ///////////////////////////////////////////////////
+    client.on('download_file', function(data) {
+        dal.downloadUrl('download_file',data,client);
     });
-}
+});
 
 exports = module.exports = app;
