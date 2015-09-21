@@ -18,7 +18,7 @@ router.get('/download/:id', function(req, res, next) {
 });
 
 router.get('/test',function(req,res,next){
-	res.render('test.ejs', {title: 'TuluKhai'});
+	res.render('category_inspinia.ejs', {title: 'TuluKhai'});
 });
 
 exports.categories = categories;

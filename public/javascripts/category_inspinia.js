@@ -14,7 +14,7 @@ var socket = io.connect(url, {
     'origins': '*:*'
 });
 
-socket.on('connect',function(){
+socket.on('connect', function() {
     var category = $('.category_id').html();
 
     socket.emit('get_quizs', {
@@ -22,19 +22,19 @@ socket.on('connect',function(){
     });
 });
 
-socket.on('get_quizs', function(data){
+socket.on('get_quizs', function(data) {
     var convertArr = [];
     objList = data.data;
     bindDataTable(objList);
 });
 
-socket.on('create_quiz',function(data){
+socket.on('create_quiz', function(data) {
     objList.push(data.data);
-    oTable.row.add([data.data.quiz, data.data.explaination, data.data]).draw( false );
+    oTable.row.add([data.data.quiz, data.data.explaination, data.data]).draw(false);
 });
 
-socket.on('update_quiz',function(data){
-    for (var i=0;i<objList.length;i++){
+socket.on('update_quiz', function(data) {
+    for (var i = 0; i < objList.length; i++) {
         if (objList[i]._id == tmpObj._id) {
             objList[i] = tmpObj;
         }
@@ -42,7 +42,7 @@ socket.on('update_quiz',function(data){
     location.reload();
 });
 
-function summit_answer(){
+function summit_answer() {
     var question = $('#question').code();
     var explaination = $('#explaination').code();
     var answers = [];
@@ -55,13 +55,13 @@ function summit_answer(){
         alert('Please specify question content');
     }
     // Check answers fill
-    for (var i=0;i<6;i++){
-        var val = $('#opt' + (i+1)).val();
+    for (var i = 0; i < 6; i++) {
+        var val = $('#opt' + (i + 1)).val();
         if (val.length == 0) {
             break;
         }
 
-        if ($('#chb' + (i+1)).is(':checked')){
+        if ($('#chb' + (i + 1)).is(':checked')) {
             correct_answer.push(i);
         }
         answers.push(val);
@@ -80,7 +80,7 @@ function summit_answer(){
         };
         sendCommand('update_quiz', tmpObj);
     } else {
-        sendCommand('create_quiz',{
+        sendCommand('create_quiz', {
             quiz: question,
             explaination: explaination,
             options: answers,
@@ -94,33 +94,33 @@ function summit_answer(){
     }
 }
 
-function sendCommand(command, data){
-	socket.emit(command, data);
+function sendCommand(command, data) {
+    socket.emit(command, data);
 }
 
 $(document).ready(function() {
     $('#question').summernote({
-            styleWithSpan: false,
-            toolbar: [
-                ['font', ['bold', 'italic', 'underline', 'clear']]
-            ],
-            lang: 'vi-VN'
+        styleWithSpan: false,
+        toolbar: [
+            ['font', ['bold', 'italic', 'underline', 'clear']]
+        ],
+        lang: 'vi-VN'
     });
     $('#explaination').summernote({
-            styleWithSpan: false,
-            toolbar: [
-                ['font', ['bold', 'italic', 'underline', 'clear']]
-            ],
-            lang: 'vi-VN'
+        styleWithSpan: false,
+        toolbar: [
+            ['font', ['bold', 'italic', 'underline', 'clear']]
+        ],
+        lang: 'vi-VN'
     });
 
     category = $('.category_id').html();
 
     uploadFileForm = $("#cvfile").uploadFile({
-        url:"/uploadfile",
+        url: "/uploadfile",
         fileName: "file",
-        onShowDown: function(fileName){
-            setTimeout(function(){
+        onShowDown: function(fileName) {
+            setTimeout(function() {
                 var responses = uploadFileForm.getResponses();
                 if (responses.length == 0)
                     return;
@@ -129,59 +129,63 @@ $(document).ready(function() {
                 // Extra data
                 $('#imgfile').val(tmpfilename);
                 uploadFileForm.clearAll();
-            },300);
+            }, 300);
         }
     });
 
     /**
      * quizlist click
      */
-    $('#quizlist tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
+    $('#quizlist tbody').on('click', 'tr', function() {
+        if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
         } else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
-    } );
+    });
 });
 
-function clearEditQuizZone(){
+function clearEditQuizZone() {
     $('#submit_quiz').html('Tạo mới');
     $('#question').code('');
     $('#explaination').code('');
     $("#quiz_id").html('');
     $('#imgfile').val('');
 
-    for (var i=1;i<=6;i++){
+    for (var i = 1; i <= 6; i++) {
         $('#opt' + i).val('');
         $('#chb' + i).prop('checked', false);
     }
     tmpfilename = '';
 }
 
-function bindDataTable(data){
-    var convertArr = [];
-    data.forEach(function(node){
-        var row = [];
-        row.push(node.quiz);
-        row.push(node.explaination);
-        row.push(node);
-        convertArr.push(row);
-    });
+function bindDataTable(data) {
+    if (oTable != null)
+        oTable.destroy();
 
-    oTable = $('#quizlist').DataTable( {
-        data: convertArr,
-        columns: [
-            { title: "quiz" },
-            { title: "explaination" },
-        ]
+    oTable = $('#quizlist').DataTable({
+        data: data,
+        responsive: true,
+        columns: [{
+            title: 'Id',
+            data: '_id',
+            width: '20%'
+        }, {
+            title: 'Content',
+            data: 'quiz',
+            width: '50%'
+        }, {
+            title: 'Explaination',
+            data: 'explaination',
+            width: '30%'
+        }]
     });
 
     $("#quizlist tbody").on('click', 'tr', function() {
         oTable.$('tr.selected').removeClass('selected');
         $(this).addClass('selected');
-        var data = oTable.row('.selected').data()[2];
+        var data = oTable.row('.selected').data();
         setTimeout(function() {
             oTable.$('tr.selected').removeClass('selected');
         }, 100);
