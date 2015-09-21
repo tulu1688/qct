@@ -13,10 +13,8 @@ router.get('/', function(req, res, next) {
 	res.render('main.ejs');
 });
 
-router.get('/download/:id', function(req,res,next){
-	dal.downloadExam({
-		category: req.params.id
-	}, res);
+router.get('/download/:id', function(req, res, next) {
+	dal.downloadExam({category: req.params.id},res);
 });
 
 router.get('/test',function(req,res,next){

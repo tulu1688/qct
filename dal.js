@@ -5,7 +5,6 @@ var userInfo = require('./models/userinfo.js'),
     randomstring = require('randomstring'),
     fs = require('fs'),
     http = require('http'),
-    download = require('url-download'),
     async = require('async'),
     _ = require('underscore'),
     EasyZip = require('easy-zip').EasyZip,
@@ -239,7 +238,7 @@ exports.updateQuiz = function(command, params, client) {
     });
 };
 
-exports.downloadExam = function(params, response) {
+exports.downloadUrl = function(command, params, client) {
     quiz.find(params, function(err, quizlist) {
         if (err) {
             console.error(err);
@@ -247,28 +246,37 @@ exports.downloadExam = function(params, response) {
 
         var zip = new EasyZip();
         var shortQuizList = _.map(quizlist, function(o){
-            // if (o.datauri != null) {
-            //     if (o.datauri.length > 0) {
-            //         zip.file(o._id + '.uri', o.datauri);
-            //     }
-            // }
             return _.omit(o.toObject(), 'updated_at', '__v');
         });
         zip.file('question.json', JSON.stringify(shortQuizList));
         zip.writeToFile('./public/uploads/' + params.category + '.qiz');
 
         var file = fs.readFileSync(__dirname + '/public/uploads/' + params.category + '.qiz', 'binary');
-        response.setHeader('Content-Length', file.length);
-        response.write(file, 'binary');
-        response.end();
+        client.emit(command, {
+            result: constValues.CODE_SUCCESSFUL,
+            link: 'uploads/' + params.category + '.qiz'
+        });
     });
 }
 
-exports.downloadUrl = function(command, params, client) {
-    download(params.url, './public/uploads').on('close', function () {
-        console.log('One file has been downloaded.');
+exports.downloadExam = function(params,response){
+    quiz.find(params, function(err, quizlist) {
+        if (err) {
+            console.error(err);
+        }
+
+        var zip = new EasyZip();
+        var shortQuizList = _.map(quizlist, function(o){
+            return _.omit(o.toObject(), 'updated_at', '__v');
+        });
+        zip.file('question.json', JSON.stringify(shortQuizList));
+        zip.writeToFile('./public/uploads/' + params.category + '.qiz', function(){
+            var filePath = __dirname + '/public/uploads/' + params.category + '.qiz';
+            var file = fs.readFileSync(filePath, 'binary');
+            response.download(filePath);
+        });
     });
-}
+};
 
 ///////////////////////////////////////////////////////////////////////
 /// Utilities file

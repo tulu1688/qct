@@ -161,8 +161,8 @@ socket.sockets.on('connection', function(client) {
     ///////////////////////////////////////////////////
     /// Other functions
     ///////////////////////////////////////////////////
-    client.on('download_file', function(data) {
-        dal.downloadUrl('download_file',data,client);
+    client.on('download_exam', function(data){
+        dal.downloadUrl('download_exam',data,client);
     });
 });
 
