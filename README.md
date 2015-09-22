@@ -1,3 +1,1 @@
 # qct
-
-## quiz creator

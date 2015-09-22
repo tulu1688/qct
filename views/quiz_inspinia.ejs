@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/jquery.dropdown.css" />
+    <link rel="stylesheet" href="../css/uploadfile.css" />
+    <link rel="stylesheet" href="../css/summernote.css" />
+    <link rel="stylesheet" href="../css/summernote-bs3.css" />
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Mainly scripts -->
+    <script src="../js/jquery-2.1.1.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/summernote.js"></script>
+    <script src="../js/bootstrap.file-input.js"></script>
+    <script src="../js/socket.io-client/socket.io.js"></script>
+    <script src="../js/jqueryupload.js"></script>
+    <script src="../js/jqueryuploadform.js"></script>
+    <script src="../javascripts/quiz_inspinia.js"></script>
+</head>
+
+<body class="gray-bg">
+    <div class="col-xs-12 col-sm-12 col-sm-12 col-lg-12">
+        <div class="col-lg-10">
+            <h2>Quiz editor</h2>
+        </div>
+        <div class="ibox-content" style="text-align: right; width: 100%">
+            <p>
+                <button type="button" class="btn btn-w-m btn-primary" data-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-w-m btn-success" onclick="summit_answer()">Tạo câu hỏi</button>
+            </p>
+        </div>
+        <div class="ibox-content">
+            <div class="modal-body">
+                <form id="questionedit_zone">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4>Nội dung câu hỏi</h4></div>
+                        <span id="quiz_id" style="display:none"></span>
+                        <div class="col-lg-9">
+                            <div id="question"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4>Nội dung câu hỏi phụ</h4></div>
+                        <span id="quiz_id" style="display:none"></span>
+                        <div class="col-lg-9">
+                            <div id="subquestion"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-sm-3 col-lg-3">
+                            <h4>Hình ảnh</h4>
+                            <span>(upload)</span>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-sm-9 col-lg-9">
+                            <div id="cvfile"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3 col-sm-3 col-sm-3 col-lg-3">
+                            <h4></h4>
+                            <span>(nhập url)</span>
+                        </div>
+                        <div class="col-xs-9 col-sm-9 col-sm-9 col-lg-9">
+                            <input id="imgfile" type="form-control" style="width: 100%" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h4>Giải nghĩa</h4></div>
+                        <div class="col-lg-9">
+                            <div id="explaination"></div>
+                        </div>
+                    </div>
+                    <h4>Câu trả lời</h4>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-sm-6 col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb1" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt1" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb2" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt2" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb3" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt3" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-sm-6 col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb4" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt4" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb5" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt5" class="form-control" />
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon checkbox">
+                                    <label>
+                                        <input id="chb6" type="checkbox" />
+                                    </label>
+                                </div>
+                                <input id="opt6" class="form-control" />
+                            </div>
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+</body>

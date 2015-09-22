@@ -122,7 +122,8 @@
     color: #dadce3;
     text-align: left;
     vertical-align: middle;
-    padding: 10px 10px 0 10px
+    padding: 10px 10px 0 10px;
+    margin: 0px 5px 10px 0px;
 }
 
 .ajax-upload-dragdrop.state-hover {
