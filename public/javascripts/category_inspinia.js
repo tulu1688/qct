@@ -169,7 +169,7 @@ function bindDataTable(data) {
         responsive: true,
         columns: [{
             title: 'Id',
-            data: '_id',
+            data: 'id',
             width: '20%'
         }, {
             title: 'Content',

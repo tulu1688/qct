@@ -203,7 +203,7 @@ exports.createCategory = function(command, params, client) {
 }
 
 exports.createQuiz = function(command, params, client) {
-    quiz.create(params, function(err, data) {
+    quiz.createQuiz(params, function(err, data) {
         if (err) {
             client.emit(command, {
                 result: constValues.CODE_INTERNAL_ERROR
@@ -212,8 +212,8 @@ exports.createQuiz = function(command, params, client) {
 
         // Create successfull
         // Move file to quiz uri
-        exports.moveFile('public' + data.extralink, 'public/quizuri/' + data.category + '_' + data._id, function(){
-        });
+        if (data.extralink.length > 0)
+            exports.moveFile('public' + data.extralink, 'public/quizuri/' + data.category + '_' + data._id, function() {});
         
         // Return to client
         client.emit(command, {
