@@ -18,10 +18,24 @@ module.exports = function(grunt) {
                     livereload: true
                 }
             }
+        },
+        uglify: {
+            options: {
+                preserveComments: 'some'
+            },
+            build: {
+                files: [{
+                    expand: true,
+                    src: 'public/javascripts/*.js',
+                    dest: '',
+                    ext: '.min.js'
+                }]
+            }
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-express');
-    grunt.registerTask('server', ['express', 'watch']);
+    grunt.registerTask('server', ['express', 'watch', 'uglify']);
 };
